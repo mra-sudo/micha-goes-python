@@ -1,0 +1,24 @@
+{% extends 'index/base.html' %}
+{% load static %}
+{% block content %}
+{% load humanize %}
+
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% if login %}
+    Geiler Scheiß!
+    {% endif %}
+
+<p class="lead">
+    Herzlich Willkommen auf meine Django Seite. <br />
+    Hier wollen wir in den nächsten Tagen eine Kopie der Vogtland-Rebels Seite aufbauen.
+    Stay tuned ;)
+</p>
+{% endblock %}

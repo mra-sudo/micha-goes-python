@@ -1,0 +1,34 @@
+{% extends 'index/base.html' %}
+{% load static %}
+{% block content %}
+{% load humanize %}
+<img src="{% static 'polls/ballot.png' %}" style="float: right;" alt="Vote"/>
+<h1>{{ titel }}</h1>
+<p class="lead">
+    Herzlich Willkommen auf der Abstimmungsseiten für meine Umfragen. <br />
+    Hier k&ouml;nnt ihr einfach abstimmen!
+    Bitte schleiß diese Seite nicht.
+</p>
+<hr />
+{% if umfragen %}
+<h2>Aktuell laufende Umfragen</h2>
+<ul>
+    {% for umfrage in umfragen %}
+        {% if umfrage.is_active %}
+    <li><div class="alert alert-primary" role="alert" style="margin-bottom: 0px;"><a href="{% url 'polls:umfrage-detail' umfrage.slug%}"> {{ umfrage }}</a></div> <p class="font-weight-light">[{{ umfrage.publish_time|naturaltime }}] / [{{ umfrage.publish_time|timesince }}]</p></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<hr />
+<h2>Bereits geschlossene Umfragen</h2>
+<ul>
+    {% for umfrage in umfragen %}
+        {% if umfrage.is_active == False %}
+        <li><div class="alert alert-dark" role="alert">{{ umfrage.name }}</div></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+<h2>Keine Umfragen gefunden</h2>
+{% endif %}
+{% endblock %}

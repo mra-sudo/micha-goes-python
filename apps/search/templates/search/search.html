@@ -1,0 +1,13 @@
+{% extends 'index/base.html' %}
+{% block content %}
+{% if ergebnis %}
+    <h1>Ergebnisse für '{{ query }}':</h1>
+    <ul>
+    {% for antwort in ergebnis %}
+        <li>{{ antwort.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <h1>Es konnte kein Ergebnis für '{{ query }}' gefunden werden.</h1>
+{% endif %}
+{% endblock %}

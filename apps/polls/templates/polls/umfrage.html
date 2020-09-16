@@ -1,0 +1,76 @@
+{% extends 'index/base.html' %}
+{% block content %}
+{% if umfrage and umfrage.is_active %}
+{{ umfrage.poll_raise_view }}
+
+    <h1>{{ umfrage.name }}</h1>
+    <h2>ID: {{ umfrage.id }}</h2>
+    <h3>Antwortm&ouml;glichkeiten</h3>
+
+    <center><div id="result"></div></center>
+
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+        {% if umfrage.choice_set.all %}
+        <!-- Wenn es Antwortmöglichkeiten gibt, dann ... -->
+        <form action="{% url 'polls:umfrage-vote' umfrage.slug %}" method="post">
+            {% csrf_token %}
+            {% for choice in umfrage.choice_set.all %}
+                <input type="radio" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.name }}</label>
+            {% endfor %}
+            {% if access %}
+                <br /><button type="submit" class="btn btn-lg btn-primary">Absenden</button>
+            {% else %}
+                <br /><button type="submit" class="btn btn-lg btn-primary" disabled>Später nochmal ;)</button>
+            {% endif %}
+        </form>
+        {% else %}
+            <p class="lead">Es sind leider noch keine Antworten vorhanden. Trag doch gleich eine ein!</p>
+        {% endif %}
+{% else %}
+    <h1>Es kann keine Umfrage ausgegeben werden.</h1>
+{% endif %}
+
+
+<a href="{%url 'polls:index'%}">Zurück zur Startseite</a><br /><br />
+<button type="button" class="btn btn-info" id="ajax">AJAX Test</button>
+
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function(){
+    $('#ajax').click(function(){
+        $.ajax({
+            url: "post/ajax/",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            type: "POST",
+            data: {
+                'name': "{{ umfrage.name }}"
+            },
+            cache: false,
+            dataType: "json",
+            success: function(resp){
+                $("#result").html('<div class="alert alert-success"><button type="button" class="close">×</button>' + resp + '</div>');
+                window.setTimeout(function() {
+                    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                        $(this).remove();
+                    });
+                }, 5000);
+                $('.alert .close').on("click", function(e){
+                    $(this).parent().fadeTo(500, 0).slideUp(500);
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock javascript %}

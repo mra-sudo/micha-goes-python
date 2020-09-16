@@ -1,0 +1,12 @@
+{% extends 'index/base.html' %}
+{% block content %}
+{% if access == False %}
+<div class="alert alert-danger" role="alert">
+  <h1>Logout erfolgreich!</h1>
+</div>
+{% elseif %}
+<div class="alert alert-danger" role="alert">
+  <h1>Fehler beim Logout!</h1>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'index/base.html' %}
+{% block content %}
+{% if results %}
+    <h1>Abstimmung für {{ results.name }}</h1>
+    <p class="lead">Vielen Dank das du abgestimmt hast.</p>
+
+        {% if results.choice_set.all %}
+        <ul>
+            {% for choice in results.choice_set.all %}
+                <li>{{choice.name}} : {{choice.votes}} haben dafür abgestimmt.</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p class="lead">Es sind leider noch keine Antworten vorhanden. Trag doch gleich eine ein!</p>
+        {% endif %}
+
+{% else %}
+    <h1>Es konnte kein Ergebnis gefunden werden.</h1>
+{% endif %}
+In der Session steht: {{ session }}
+Letzte ID war: {{ id }}
+<a href="{%url 'polls:index'%}">Zurück zur Startseite</a>
+{% endblock %}

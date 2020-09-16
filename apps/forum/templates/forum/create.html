@@ -1,0 +1,24 @@
+{% extends 'index/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <form id="topic-form" action="{% url 'forum:post_new' %}" method="post" >
+        <div class="row">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group col-4">
+                <label class="col-12">{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary" value="Create Topic" />
+
+        </div>
+    <form>
+</div>
+<hr />
+{% endblock content %}
+
+
+{% block javascript %}
+{% endblock javascript %}

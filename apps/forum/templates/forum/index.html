@@ -1,0 +1,37 @@
+{% extends 'index/base.html' %}
+{% load static %}
+{% block content %}
+{% load humanize %}
+
+<h1>Forum</h1>
+<p class="lead">
+    Der erste Test meines Forums - man bin ich gespannt. :)
+</p>
+<hr />
+{% if topics %}
+<h2>Aktuell offene Topics</h2>
+<ul>
+    {% for topic in topics %}
+        {% if topic.topic_is_active %}
+        <li><div class="alert alert-primary" role="alert" style="margin-bottom: 0px;">
+            <a href="{% url 'forum:topic_detail' topic.slug%}"> {{ topic }}</a></div>
+            <p class="font-weight-light"><b>Erstellt vor</b> {{ topic.publish_time|timesince }} | <b>Autor:</b> {{ topic.author }}</p></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+<h2>Keine Topics gefunden</h2>
+{% endif %}
+<hr />
+<hr />
+<h3>Thema erstellen</h3>
+{% if user.is_authenticated %}
+     <a href="{%url 'forum:post_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
+{% endif %}
+
+
+{% endblock content %}
+
+
+{% block javascript %}
+{% endblock javascript %}
