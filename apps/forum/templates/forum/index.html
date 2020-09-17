@@ -28,6 +28,8 @@
 {% if user.is_authenticated %}
      <a href="{%url 'forum:post_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
 {% endif %}
+<a href="{%url 'forum:post_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
+
 
 
 {% endblock content %}
