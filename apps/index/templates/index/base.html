@@ -7,14 +7,63 @@
     <title>Umfrageseite</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <style type="text/css">div.weiterrunter {margin-top: 40px}</style>
+    <style type="text/css">
+    div.weiterrunter {
+        margin-top: 40px
+    }
+    </style>
     {% block style %}
     {% endblock style %}
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+<!--Navbar-->
+<nav class="navbar navbar-light light-blue lighten-4">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="/">Micha goes Python</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+        class="fas fa-bars fa-1x"></i></span></button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/poll/">Umfragen</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/forum/">Forum</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/intern/">Intern</a>
+      </li>
+    </ul>
+    <!-- Links -->
+
+    <form class="form-inline my-2 my-lg-0" action="{% url 'search:umfrage-suche' %}" method="post">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Umfrage suchen" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
+    </form>
+
+  </div>
+  <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->
+
+
+  <!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/">Micha goes Python</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
@@ -49,7 +98,7 @@
       </div>
       </form>
       </div>
-    </nav>
+    </nav> -->
 
     <div class="container weiterrunter">
       {% block content %}
