@@ -16,6 +16,11 @@
         padding-top: 20px;
         background-color: #ffffff;
     }
+
+    .navbar {
+        background-color: #ECD5CD;
+    }
+
     .fa-1x {
     font-size: 1.5rem;
     }
@@ -72,16 +77,8 @@
       </li>
     </ul>
     <!-- Links -->
-
-    <form class="form-inline my-2 my-lg-0" action="{% url 'search:umfrage-suche' %}" method="post">
-        {% csrf_token %}
-        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Umfrage suchen" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
-    </form>
-
   </div>
   <!-- Collapsible content -->
-
 </nav>
 <!--/.Navbar-->
 
