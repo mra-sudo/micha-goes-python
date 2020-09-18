@@ -1,6 +1,7 @@
 {% extends 'index/base.html' %}
 {% load static %}
 {% block content %}
+{% if user.is_authenticated %}
 <div class="container-fluid">
     <form id="topic-form" action="{% url 'forum:post_new' %}" method="POST" >
         <div class="row">
@@ -17,6 +18,9 @@
     </form>
 </div>
 <hr />
+{% else %}
+<h2>EINLOGGEN!</h2>
+{% endif %}
 {% endblock content %}
 
 

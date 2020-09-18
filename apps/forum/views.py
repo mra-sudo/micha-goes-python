@@ -48,7 +48,7 @@ def post_edit(request, slug):
         form = CreateTopic(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
+            post.author = request.user.username
             post.publish_time = timezone.now()
             post.save()
             return redirect('forum:topic_detail', slug=post.slug)

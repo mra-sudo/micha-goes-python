@@ -58,9 +58,10 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     post = models.TextField(null=True, blank=True)
     author = models.CharField(max_length=256)
+    publish_time = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return "{0}: {1})".format(self.poll.name, self.name)
+        return self.name
 
     def post_raise_like(self):
         self.likes += 1
