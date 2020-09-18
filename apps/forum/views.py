@@ -19,35 +19,28 @@ def topic_detail(request, slug):
     context = {'topic':topic}
     return render(request=request, template_name='forum/topic.html', context=context)
 
-def create_topic(request):
-    form = CreateTopic()
-    #topics = Topic.objects.all()
-    #context = {"form": form, "topics": Topic}
-    context = {"form": form}
-    return render(request=request, template_name='forum/create.html', context=context)
-    #return render(request=request, template_name='forum/create.html')
+# def create_topic(request):
+#     form = CreateTopic()
+#     #topics = Topic.objects.all()
+#     #context = {"form": form, "topics": Topic}
+#     context = {"form": form}
+#     return render(request=request, template_name='forum/create.html', context=context)
+#     #return render(request=request, template_name='forum/create.html')
 
 
 def post_new(request):
     if request.method == "POST":
         form = CreateTopic(request.POST)
-        context = {"form": form}
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.publish_time = timezone.now()
             post.save()
-            #return redirect('topic_detail', slug=post.slug)
-            return redirect('topic_detail')
-            #return reverse('topic_detail', slug=post.slug)
-            #return HttpResponseRedirect('topic_detail', slug=post.slug)
-        else:
-            return render(request=request, template_name='forum/create.html', context=context)
+            return redirect('forum:topic_detail', slug=post.slug)
     else:
         form = CreateTopic()
-        context = {"form": form}
-        return render(request=request, template_name='forum/create.html', context=context)
-    #return render(request, 'forum/create.html', {'form': form})
+    return render(request=request, template_name='forum/create.html', context = {"form": form})
+
 
 def post_edit(request, slug):
     post = get_object_or_404(Topic, slug=slug)
@@ -58,10 +51,11 @@ def post_edit(request, slug):
             post.author = request.user
             post.publish_time = timezone.now()
             post.save()
-            return redirect('topic_detail', slug=post.slug)
+            return redirect('forum:topic_detail', slug=post.slug)
     else:
         form = CreateTopic(instance=post)
-    return render(request, 'forum/create.html', {'form': form})
+    return render(request=request, template_name='forum/edit.html', context = {"form": form})
+
 #
 #
 #     if request.method == "POST":

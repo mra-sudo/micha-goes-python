@@ -10,7 +10,7 @@
 <hr />
 {% if topics %}
 
-<a href="{%url 'forum:post_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
+<a href="{% url 'forum:post_new' %}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
 
 <h2>Aktuell offene Topics</h2>
 <ul>
