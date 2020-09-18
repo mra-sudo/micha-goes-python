@@ -1,13 +1,24 @@
 {% extends 'index/base.html' %}
 {% load static %}
-{% block content %}
 {% load humanize %}
 
+{% block style %}
+   <style type="text/css">
+   .bd-example {
+        padding: 1.5rem;
+        margin-right: 0;
+        margin-left: 0;
+        border-width: .2rem;
+   }
+   </style>
+{% endblock style %}
+
+{% block content %}
 {% if topic %}
 
 <h1>{{ topic.name }}</h1>
 {% if user.is_authenticated %}
-     <a class="btn btn-default" href="{% url 'forum:post_edit' topic.slug %}"><span class="glyphicon glyphicon-pencil">#</span></a>
+     <a class="btn btn-default" href="{% url 'forum:topic_edit' topic.slug %}"><span class="glyphicon glyphicon-pencil">#</span></a>
 {% endif %}
 
 <p class="font-weight-light"><b>Erstellt vor</b> {{ topic.publish_time|timesince }} | <b>Autor:</b> {{ topic.author }}</p>
@@ -17,21 +28,38 @@
 <hr />
 
    {% if topic.post_set.all %}
-   <h2>Antworten</h2>
+   <h3>Antworten</h3>
      {% for choice in topic.post_set.all %}
-       <div class="bd-example">
-          <blockquote class="blockquote">
+        <div class="alert alert-secondary" role="alert">
+          <h4 class="alert-heading">{{choice.name}}</h4>
           <p>{{choice.post}}</p>
-           <footer>Autor: <cite title="Source Title">{{choice.author}}</cite> | Datum: <cite title="Source Title">{{choice.publish_time}}</cite></footer>
-          </blockquote>
-       </div>
+          <hr>
+          <p class="mb-0">Autor: <cite title="Source Title">{{choice.author}}</cite> | Geschrieben vor: <cite title="Source Title">{{choice.publish_time|timesince}}</cite></p>
+        </div>
      {% endfor %}
    {% else %}
        <p class="lead">Es sind leider noch keine Antworten vorhanden. Trag doch gleich eine ein!</p>
    {% endif %}
 
+{% if user.is_authenticated %}
+    <div class="container-fluid">
+    <form id="topic-form" action="{% url 'forum:topic_new' %}" method="POST" >
+        <div class="row">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group col-4">
+                <label class="col-12">{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary" value="Antwort schreiben" />
 
-BUTON ZUM POSTEN
+        </div>
+    </form>
+    </div>
+{% endif %}
+
+
 
 {% else %}
 <h2>Kein Topic gefunden</h2>

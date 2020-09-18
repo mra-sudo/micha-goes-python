@@ -68,3 +68,7 @@ class Post(models.Model):
         self.save()
         #ggf. säter dann noch Rückgabe der Likes:
         #return self.likes
+
+    def count_posts(self, name):
+        count=self.objects.filter(topic__name=name).count()
+        return count
