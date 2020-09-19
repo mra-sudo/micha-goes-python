@@ -17,7 +17,7 @@
 {% if topic %}
 
 <h1>{{ topic.name }}</h1>
-<h5>Anzahl Antworten {{ count }}</h5>
+<h6>Anzahl Antworten {{ count }}</h6>
 {% if user.is_authenticated %}
      <a class="btn btn-default" href="{% url 'forum:topic_edit' topic.slug %}"><span class="glyphicon glyphicon-pencil">#</span></a>
 {% endif %}
