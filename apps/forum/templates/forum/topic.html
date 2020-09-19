@@ -17,6 +17,7 @@
 {% if topic %}
 
 <h1>{{ topic.name }}</h1>
+<h5>Anzahl Antworten {{ count }}</h5>
 {% if user.is_authenticated %}
      <a class="btn btn-default" href="{% url 'forum:topic_edit' topic.slug %}"><span class="glyphicon glyphicon-pencil">#</span></a>
 {% endif %}
@@ -41,25 +42,13 @@
        <p class="lead">Es sind leider noch keine Antworten vorhanden. Trag doch gleich eine ein!</p>
    {% endif %}
 
-{% if user.is_authenticated %}
-    <div class="container-fluid">
-    <form id="topic-form" action="{% url 'forum:topic_new' %}" method="POST" >
-        <div class="row">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group col-4">
-                <label class="col-12">{{ field.label }}</label>
-                {{ field }}
-            </div>
-            {% endfor %}
-            <input type="submit" class="btn btn-primary" value="Antwort schreiben" />
-
-        </div>
+    {% if user.is_authenticated %}
+    <form id="post-form" action="{% url 'forum:posting_new' topic.slug %}" method="POST" >
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-primary" value="Antwort schreiben" />
     </form>
-    </div>
-{% endif %}
-
-
+    {% endif %}
 
 {% else %}
 <h2>Kein Topic gefunden</h2>

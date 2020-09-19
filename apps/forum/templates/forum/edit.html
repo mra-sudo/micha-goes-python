@@ -3,7 +3,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container-fluid">
-    <form id="topic-form" action="{% url 'forum:post_edit' form.slug.value %}" method="POST" >
+    <form id="topic-form" action="{% url 'forum:topic_edit' form.slug.value %}" method="POST" >
         <div class="row">
             {% csrf_token %}
             {% for field in form %}

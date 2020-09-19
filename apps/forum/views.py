@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 from .models import Topic, Post
 from django.core import serializers
-from .forms import CreateTopic
+from .forms import CreateTopic, CreatePost
 from django.utils import timezone
 
 
@@ -16,7 +16,9 @@ def index(request):
 
 def topic_detail(request, slug):
     topic = get_object_or_404(Topic, slug=slug)
-    context = {'topic':topic}
+    form = CreatePost()
+    count = Post.objects.filter(topic__slug=slug).count()
+    context = {'topic': topic, 'form': form, 'count': count}
     return render(request=request, template_name='forum/topic.html', context=context)
 
 # def create_topic(request):
@@ -55,6 +57,23 @@ def topic_edit(request, slug):
     else:
         form = CreateTopic(instance=post)
     return render(request=request, template_name='forum/edit.html', context = {"form": form})
+
+
+def posting_new(request, slug):
+    topic = get_object_or_404(Topic, slug=slug)
+
+    if request.method == "POST":
+        form = CreatePost(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user.username
+            post.topic = topic
+            post.publish_time = timezone.now()
+            post.save()
+            return redirect('forum:topic_detail', slug=slug)
+    else:
+        form = CreateTopic()
+    return render(request=request, template_name='forum/create.html', context = {"form": form})
 
 #
 #

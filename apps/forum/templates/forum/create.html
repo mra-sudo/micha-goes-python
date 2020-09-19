@@ -4,17 +4,9 @@
 {% if user.is_authenticated %}
 <div class="container-fluid">
     <form id="topic-form" action="{% url 'forum:topic_new' %}" method="POST" >
-        <div class="row">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group col-4">
-                <label class="col-12">{{ field.label }}</label>
-                {{ field }}
-            </div>
-            {% endfor %}
-            <input type="submit" class="btn btn-primary" value="Create Topic" />
-
-        </div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" value="Create Topic" />
     </form>
 </div>
 <hr />

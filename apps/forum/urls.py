@@ -9,5 +9,6 @@ urlpatterns = [
     #path('topic/create/', create_topic, name='create-topic'),
     path('<str:slug>/edit/', views.topic_edit, name='topic_edit'),
     path('topic/create/', views.topic_new, name='topic_new'),
+    path('<str:slug>/post/', views.posting_new, name='posting_new'),
     #path('topic/create/post/ajax/', ajax_create_topic, name='ajax-create-topic'),
 ]
