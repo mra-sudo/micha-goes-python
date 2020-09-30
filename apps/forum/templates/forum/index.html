@@ -10,7 +10,7 @@
 <hr />
 {% if topics %}
 
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
 <h3>Thema erstellen</h3>
      <a href="{%url 'forum:topic_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
 {% endif %}
