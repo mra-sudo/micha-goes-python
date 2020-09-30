@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
@@ -26,7 +26,7 @@ def internView(request):
 
 def logout(request):
    try:
-      logout(request)
+      auth_logout(request)
       messages.info(request, "Erfolgreich ausgeloggt.")
    except:
       pass
