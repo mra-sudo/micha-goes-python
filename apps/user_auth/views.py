@@ -6,7 +6,7 @@ from django.urls import reverse
 
 # Create your views here.
 def login(request):
-    user = authenticate(username=request.POST['username'], password=request.POST['password'])
+    user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
     if user is not None:
         # A backend authenticated the credentials
         context = {'user':user}
