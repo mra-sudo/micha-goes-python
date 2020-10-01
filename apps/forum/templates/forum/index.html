@@ -14,7 +14,11 @@
 <h3>Thema erstellen</h3>
      <a href="{%url 'forum:topic_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
 {% endif %}
-Ping
+
+{% if user.is_authenticated %}
+Tach {{user.last_name}}
+{% endif %}
+
 <h2>Aktuell offene Topics</h2>
 <ul>
     {% for topic in topics %}

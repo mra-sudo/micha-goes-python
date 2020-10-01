@@ -4,12 +4,14 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
 
-# Create your views here.
+
 def login(request):
-    user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
     if user is not None:
         # A backend authenticated the credentials
-        context = {'user':user}
+        context = {'user': user}
         auth_login(request, user)
         return render(request=request, template_name='user_auth/intern.html', context=context)
     else:
