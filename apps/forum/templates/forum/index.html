@@ -11,12 +11,7 @@
 {% if topics %}
 
 {% if user.is_authenticated %}
-<h3>Thema erstellen</h3>
-     <a href="{%url 'forum:topic_new'%}"><button type="submit" class="btn btn-lg btn-primary">Anlegen</button></a>
-{% endif %}
-
-{% if user.is_authenticated %}
-Tach {{user.last_name}}
+  <a href="{%url 'forum:topic_new'%}"><button type="submit" class="btn btn-lg btn-primary">Neues Thema erstellen</button></a><br /><br />
 {% endif %}
 
 <h2>Aktuell offene Topics</h2>

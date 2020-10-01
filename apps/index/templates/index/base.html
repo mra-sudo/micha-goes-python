@@ -51,77 +51,27 @@
 
 <!--Navbar-->
 <nav class="navbar navbar-light light-blue lighten-4 sticky-top">
-
   <!-- Navbar brand -->
-  <a class="navbar-brand" href="/">Micha goes Python</a>
-  <a class="navbar-brand" href="/poll/">Umfragen</a>
-  <a class="navbar-brand" href="/forum/">Forum</a>
-  <!-- Collapse button -->
-  <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
-        class="fas fa-bars fa-1x"></i>X</span></button>
+  {% if user.is_authenticated %}
+    <a class="navbar-brand" href="/">Hallo {{user.username}}</a>
+  {%else%}
+    <a class="navbar-brand" href="/">Micha goes Python</a>
+  {% endif %}
 
-  <!-- Collapsible content -->
-  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-
-    <!-- Links -->
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/poll/">Umfragen</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/forum/">Forum</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/intern/">Intern</a>
-      </li>
-    </ul>
-    <!-- Links -->
-  </div>
-  <!-- Collapsible content -->
+  <ul class="nav nav-tabs">
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menü</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/poll/">Umfrage</a>
+      <a class="dropdown-item" href="/forum/">Forum</a>
+      {% if user.is_authenticated %}
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/intern/">Intern</a>
+      {% endif %}
+    </div>
+  </li>
+  </ul>
 </nav>
-<!--/.Navbar-->
-
-
-  <!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">Micha goes Python</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/poll/">Umfragen</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/forum/"><span class="glyphicon glyphicon-plus"></span> Forum</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/intern/">Intern</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0" action="{% url 'search:umfrage-suche' %}" method="post">
-        {% csrf_token %}
-        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Umfrage suchen" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
-      </form>
-
-      <form class="form-inline" style="margin-left: 50px;" action="{% url 'user_auth:login' %}" method="post">
-      {% csrf_token %}
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1">@</span>
-        </div>
-        <input type="text" class="form-control" placeholder="Username" name="username" aria-label="Username" aria-describedby="basic-addon1" style="margin-right: 8px;">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon2">#</span>
-        </div>
-        <input type="text" class="form-control" placeholder="Password" name="password" aria-label="Password" aria-describedby="basic-addon2" style="margin-right: 8px;">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-      </div>
-      </form>
-      </div>
-    </nav> -->
 
     <div class="container weiterrunter">
       {% block content %}
@@ -129,7 +79,7 @@
     </div>
 
 <!-- Footer -->
-<footer class="page-footer fixed-bottom">
+<footer class="page-footer position-sticky">
   <!-- Footer Elements -->
   <div class="container">
     <!--Grid row-->
