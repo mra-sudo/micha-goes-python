@@ -29,7 +29,6 @@ def topic_detail(request, slug):
 #     return render(request=request, template_name='forum/create.html', context=context)
 #     #return render(request=request, template_name='forum/create.html')
 
-
 def topic_new(request):
     if request.method == "POST":
         form = CreateTopic(request.POST)
@@ -42,7 +41,6 @@ def topic_new(request):
     else:
         form = CreateTopic()
     return render(request=request, template_name='forum/create.html', context = {"form": form})
-
 
 def topic_edit(request, slug):
     post = get_object_or_404(Topic, slug=slug)
