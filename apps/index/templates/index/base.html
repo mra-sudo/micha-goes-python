@@ -7,116 +7,102 @@
     <title>Umfrageseite</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <style type="text/css">
-    div.weiterrunter {
-        margin-top: 40px;
-        margin-bottom: 100px;
-
-    }
-    .page-footer{
-        position: fixed;
-        padding-top: 20px;
-        background-color: #aacdcd;
-    }
-
-    .navbar {
-        background-color: #7fb5b5;
-    }
-
-    .fa-1x {
-    font-size: 1.5rem;
-    }
-    .navbar-toggler.toggler-example {
-    cursor: pointer;
-    }
-    .dark-blue-text {
-    color: #0A38F5;
-    }
-    .dark-pink-text {
-    color: #AC003A;
-    }
-    .dark-amber-text {
-    color: #ff6f00;
-    }
-    .dark-teal-text {
-    color: #004d40;
-    }
-    </style>
     {% block style %}
     {% endblock style %}
 </head>
 
 <body>
-
-
-<!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-  <!-- Navbar brand -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm  navbar-light bg-light sticky-top ">
   {% if user.is_authenticated %}
     <a class="navbar-brand" href="/">Hallo {{user.username}}</a>
-  {%else%}
+  {% else %}
     <a class="navbar-brand" href="/">Micha goes Python</a>
+    <button class="btn btn-success ml-auto mr-1" data-toggle="modal" data-target="#modalLoginForm">Anmelden</button>
   {% endif %}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarContent">
+        <ul class="navbar-nav text-right">
+            <li class="nav-item active">
+                <a class="nav-link" href="/poll/">Umfrage</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/forum/">Forum</a>
+            </li>
+            {% if user.is_authenticated %}
+             <li class="nav-item active">
+                <a class="nav-link" href="/intern/">Intern</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<!-- Navbar -->
 
-  <ul class="nav">
-  <li class="nav-item dropdown">
-    <a class="navbar-brand dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">|  Menü</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="/poll/">Umfrage</a>
-      <a class="dropdown-item" href="/forum/">Forum</a>
-      <div class="dropdown-divider"></div>
-      <div>
-        <form class="form-inline" action="{% url 'search:umfrage-suche' %}" method="post">
+<!-- Login -->
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Anmelden</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="{% url 'user_auth:login' %}" method="post">
+      <div class="modal-body mx-3">
+        {% csrf_token %}
+        <div class="md-form mb-5">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="text" id="defaultForm-email" class="form-control validate" name="username">
+          <label data-error="wrong" data-success="right" for="defaultForm-email">Nutzername</label>
+        </div>
+        <div class="md-form mb-4">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <input type="password" id="defaultForm-pass" class="form-control validate" name="password">
+          <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-default">Login</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--
+<div class="text-center">
+  <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+    Modal Login Form</a>
+</div>-->
+<!-- Login -->
+
+<div class="container" style="margin-top:20px; margin-bottom:20px;">
+  {% block content %}
+  {% endblock content %}
+</div>
+
+<!-- Footer -->
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+
+    <form class="form-inline" action="{% url 'search:umfrage-suche' %}" method="post">
         {% csrf_token %}
         <input class="form-control" style="margin-left:10px; margin-right:10px;" type="search" name="search" placeholder="Suchen nach ..." aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" style="display: none;" type="submit">Go</button>
-        </form>
-      </div>
-      {% if user.is_authenticated %}
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/intern/">Intern</a>
-      {% endif %}
-    </div>
-  </li>
-  </ul>
-
+    </form>
+    {% if user.is_authenticated %}
+    <form class="form-inline my-2 my-lg-0" action="{% url 'user_auth:logout' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+    {% endif %}
 </nav>
 
-    <div class="container weiterrunter">
-      {% block content %}
-      {% endblock content %}
-    </div>
 
-<!-- Footer -->
-<footer class="page-footer bg-light position-sticky">
-  <!-- Footer Elements -->
-  <div class="container">
-    <!--Grid row-->
-    <div class="row">
-      <!--Grid column-->
-      <div class="col-md-6 mb-4">
-        <form class="form-inline" style="margin-left: 50px;" action="{% url 'user_auth:login' %}" method="post">
-          {% csrf_token %}
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
-            </div>
-            <input type="text" class="form-control" placeholder="Username" name="username" aria-label="Username" aria-describedby="basic-addon1" style="margin-right: 8px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon2">#</span>
-            </div>
-            <input type="text" class="form-control" placeholder="Password" name="password" aria-label="Password" aria-describedby="basic-addon2" style="margin-right: 8px;">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-          </div>
-        </form>
-      </div>
-      <!--Grid column-->
-    </div>
-    <!--Grid row-->
-  </div>
-  <!-- Footer Elements -->
-</footer>
-<!-- Footer -->
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
